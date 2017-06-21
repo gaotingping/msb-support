@@ -20,6 +20,6 @@ public class Test1 {
 		List<String> p=new ArrayList<>();
 		p.add("springbustest.service");
 		
-		AutoBuildDoc.build("myWord2.doc", p);
+		AutoBuildDoc.build("E:/myWord3.doc", p);
 	}
 }

@@ -1,5 +1,6 @@
 package com.mvw.china.doc;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -9,6 +10,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.PageSize;
@@ -32,8 +34,11 @@ public class AutoBuildDoc {
 		Document doc = new Document(PageSize.A4);
 		RtfWriter2.getInstance(doc, new FileOutputStream(docPath));
 		doc.open();
+		
+		//写全局约束
+		writerGlobalRule(doc);
 
-		Font font10 = getFont(12, Font.NORMAL);
+		Font font10 = getFont(12, Font.NORMAL,Color.BLACK);
 
 		List<Class<?>> list = ScannerUtils.getServiceEntry(p);
 
@@ -115,17 +120,83 @@ public class AutoBuildDoc {
 		doc.close();
 	}
 
-	private static Font getFont(int fontSize, int fontStyle) {
+	private static void writerGlobalRule(Document doc) throws DocumentException {
+		
+		//标题
+		doc.add(new Paragraph("文档约定(说明)", RtfParagraphStyle.STYLE_HEADING_1));
+		doc.add(new Paragraph(""));
+		Font font10 = getFont(12, Font.NORMAL,Color.BLACK);
+		
+		//输入
+		doc.add(new Paragraph("#输入格式",font10));
+		
+		JSONObject p1=new JSONObject();
+		p1.put("serviceModule", "模块名称");
+		p1.put("serviceNumber", "方法编码");
+		p1.put("token","登录后获得的访问凭证");
+		p1.put("args", "业务逻辑约定参数");
+		
+		doc.add(new Paragraph(JsonFormatUtils.formatJson(p1.toJSONString()),font10));
+		doc.add(new Paragraph(""));
+		
+		JSONObject args=new JSONObject();
+		args.put("xx1","参数1");
+		args.put("xx2","参数2");
+		args.put("token","登录后获得的访问凭证");
+		
+		doc.add(new Paragraph("*args说明:",font10));
+		doc.add(new Paragraph(JsonFormatUtils.formatJson(args.toJSONString()),font10));
+		
+		//输出
+		doc.add(new Paragraph(""));
+		doc.add(new Paragraph("#输出格式",font10));
+		
+		JSONObject p2=new JSONObject();
+		p2.put("errorMessage", "发生错误时的说明");
+		p2.put("opFlag", "true/false接口逻辑处理结果");
+		p2.put("serviceResult","业务逻辑返回数据");
 
+		doc.add(new Paragraph(JsonFormatUtils.formatJson(p2.toJSONString()),font10));
+		doc.add(new Paragraph(""));
+		
+		JSONObject serviceResult=new JSONObject();
+		serviceResult.put("flag","true/false接口逻辑处理结果");
+		serviceResult.put("error","错误时的说明");
+		serviceResult.put("result","业务数据");
+		serviceResult.put("stime","服务器当前时间戳");
+				
+		doc.add(new Paragraph("*serviceResult说明:",font10));
+		doc.add(new Paragraph(JsonFormatUtils.formatJson(serviceResult.toJSONString()),font10));
+		doc.add(new Paragraph(""));
+		
+		JSONObject result=new JSONObject();
+		result.put("total","总记录数");
+		result.put("data","业务数据");
+		result.put("currentPage","当前页码");
+		result.put("pageSize","每页显示条数");
+		
+		doc.add(new Paragraph("*分页result说明:",font10));
+		doc.add(new Paragraph(JsonFormatUtils.formatJson(result.toJSONString()),font10));
+		doc.add(new Paragraph(""));
+		
+		//说明
+		Font redFont = getFont(12, Font.NORMAL,Color.RED);
+		doc.add(new Paragraph("#注意:",redFont));
+		doc.add(new Paragraph("*下文文档中为了简练和减少冗余,只列出必要部分",redFont));
+		doc.add(new Paragraph("1.输入只列出args部分",redFont));
+		doc.add(new Paragraph("2.输出只列出serviceResult部分",redFont));
+		doc.add(new Paragraph("3.方法编码会列出",redFont));
+		doc.add(new Paragraph(""));
+	}
+
+	private static Font getFont(int fontSize,int fontStyle,Color c) {
 		Font chineseFont = null;
-
 		try {
 			BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-			chineseFont = new Font(bfChinese, fontSize, fontStyle);
+			chineseFont = new Font(bfChinese, fontSize, fontStyle,c);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return chineseFont;
 	}
 }
