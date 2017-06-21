@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <classPathEntry  location="D:/gtp/maven/repo/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar" />
+	<context id="gms-service" targetRuntime="MyBatis3" >	
+		<property name="javaFileEncoding" value="UTF-8"/>	
+		<commentGenerator type="org.mybatis.generator.internal.CustomeCommentGenerator">
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+						connectionURL="jdbc:mysql://127.0.0.1:3306/360eval2?characterEncoding=utf8&amp;autoReconnect=true"
+						userId="gtp"
+						password="123456" />
+		<javaModelGenerator targetPackage="tmp_generator.po"  targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="tmp_generator.xml"    targetProject="src/main/java"/>
+		<javaClientGenerator targetPackage="tmp_generator.dao"  targetProject="src/main/java" type="XMLMAPPER" />
+		<table tableName="gms_base_relation" domainObjectName="GmsBaseRelation" 
+				enableCountByExample="false" 
+				enableUpdateByExample="false" 
+				enableDeleteByExample="false"
+			    enableSelectByExample="false" 
+			    selectByExampleQueryId="false">
+		</table>
+	</context>
+</generatorConfiguration>
