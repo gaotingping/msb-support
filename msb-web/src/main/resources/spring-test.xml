@@ -36,12 +36,10 @@
 	<bean id="dispatcherExecutor" class="com.mvw.china.bus.executor.DefaultDispatcherExecutor" 
 			init-method="init" 
 			destroy-method="destroy">
-	      	<property name="parameterBinder" ref="parameterBinder"/>
 	      	<property name="packes">
 	      	  <list>
 	      	     <value>springbustest</value>
 	      	  </list>
 	      	</property>
 	</bean>
-	<bean id="parameterBinder" class="com.mvw.china.bus.binding.DefaultParameterBinder"/>
 </beans>

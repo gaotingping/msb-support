@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mvw.china.bus.annotation.ApiMethod;
 import com.mvw.china.bus.annotation.ApiParam;
+import com.mvw.china.bus.binding.DefaultParameterBinder;
 import com.mvw.china.bus.binding.ParameterBinder;
 import com.mvw.china.bus.constants.ErrorConstants;
 import com.mvw.china.bus.model.BizResult;
@@ -27,7 +27,6 @@ import com.mvw.china.common.ScannerUtils;
  * 
  * @author gaotingping@cyberzone.cn
  */
-@Component
 public class DefaultDispatcherExecutor implements DispatcherExecutor,ApplicationContextAware{
 	
 	private static final Logger logger = LoggerFactory.getLogger(DefaultDispatcherExecutor.class);
@@ -57,6 +56,10 @@ public class DefaultDispatcherExecutor implements DispatcherExecutor,Application
 			}
 		}catch(Exception e){
 			logger.error(e.getMessage(),e);
+		}
+		
+		if(parameterBinder==null){
+			parameterBinder=new DefaultParameterBinder();
 		}
 	}
 	
