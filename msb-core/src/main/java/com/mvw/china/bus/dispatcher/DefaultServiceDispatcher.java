@@ -69,15 +69,7 @@ public class DefaultServiceDispatcher implements ServiceDispatcher{
 			return ErrorConstants.SERVICE_CODE_EMPTY;
 		}
 		
-		String token = json.getString("token");
-		tokenVerify(token);
-		
 		return null;
-	}
-	
-	@Override
-	public boolean tokenVerify(String token) {
-		return true;
 	}
 
 	//setter getter

@@ -13,6 +13,4 @@ public interface ServiceDispatcher{
 	public MsbResult doService(String body,HttpServletRequest request, HttpServletResponse response);
 
 	public void setServiceModule(String serviceModule);
-
-	public boolean tokenVerify(String token);
 }
